@@ -1,0 +1,44 @@
+.alert-notification {
+    position: fixed !important;
+    top: 4rem;
+    right: 4rem;
+    z-index: 1000;
+}
+
+.icon {
+    width: 3.5rem !important;
+}
+
+.page-title {
+    padding: 4rem 8rem 3rem 8rem !important
+}
+
+.page-body {
+    padding: 0 8rem !important
+}
+
+.footer {
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 2rem;
+}
+
+.page-background {
+    --pf-c-background-image--Filter: unset !important
+}
+
+.config-icon {
+    color: black !important;
+}
+
+.config-icon .pf-m-unread {
+    color: black !important;
+    background-color: #D2D2D2 !important;
+}
+.nav-logo {
+    width: 7.5rem;
+}
