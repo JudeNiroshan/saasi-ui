@@ -1,0 +1,11 @@
+.app-label {
+    display: flex !important;
+}
+
+.app-label .pf-c-form__group-control {
+    width: 60%;
+}
+
+.filter-panel-actions {
+
+}

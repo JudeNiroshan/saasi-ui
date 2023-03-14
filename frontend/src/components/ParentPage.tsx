@@ -15,7 +15,7 @@ import {
     Nav,
     NavItem,
     NavList,
-    Page,
+    Page, PageSection,
     PageSidebar,
     PageToggleButton,
     Stack,
@@ -25,17 +25,19 @@ import {
     ToolbarGroup,
     ToolbarItem
 } from '@patternfly/react-core';
-import {useNavigate} from 'react-router';
+import {Outlet, useNavigate} from 'react-router';
 import BarsIcon from '@patternfly/react-icons/dist/esm/icons/bars-icon';
-import {Home} from "./HomePage/Home";
+import {Exporter} from "./Exporter/Exporter";
 import imgAvatar from '@patternfly/react-core/src/components/Avatar/examples/avatarImg.svg';
 import logo from '../images/Logo-Red_Hat.png'
 import icon from '../images/Logo-Red-Hat-icon.png'
 import {UserContext} from "../hooks/useUser";
 import './ParentPage.css'
+import {NewExporter} from "./Exporter/NewExporter";
 
 export const ParentPage: React.FunctionComponent = () => {
     const {user, setUser} = React.useContext(UserContext);
+    const [renderingComponent, setRenderingComponent] = React.useState(<Exporter/>);
     const [isNavOpen, setIsNavOpen] = React.useState(true);
     const [activeItem, setActiveItem] = React.useState(0);
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
@@ -119,13 +121,19 @@ export const ParentPage: React.FunctionComponent = () => {
     const PageNav = (
         <Nav onSelect={({itemId}) => setActiveItem(Number(itemId))} aria-label="Nav">
             <NavList>
-                <NavItem itemId={0} isActive={activeItem === 0} to="#">
+                <NavItem itemId={0} isActive={activeItem === 0} onClick={() =>navigate("/")}>
                     Home
                 </NavItem>
-                <NavItem itemId={1} isActive={activeItem === 1} to="#">
+                <NavItem itemId={1} isActive={activeItem === 1} onClick={() =>navigate("/exporter")}>
+                    Exporter
+                </NavItem>
+                <NavItem itemId={2} isActive={activeItem === 2} onClick={() =>navigate("/deployer")}>
+                    Deployer
+                </NavItem>
+                <NavItem itemId={3} isActive={activeItem === 3} onClick={() =>navigate("/create-exporter")}>
                     Settings
                 </NavItem>
-                <NavItem itemId={2} isActive={activeItem === 2} to="#">
+                <NavItem itemId={4} isActive={activeItem === 4} to="#">
                     Documentation
                 </NavItem>
             </NavList>
@@ -134,24 +142,13 @@ export const ParentPage: React.FunctionComponent = () => {
 
     const sidebar = <PageSidebar nav={PageNav} isNavOpen={isNavOpen} id="group-section-sidebar"/>;
 
-    const renderCurrentSelection = () => {
-        switch (activeItem) {
-            case 0:
-                return <Home/>;
-            case 1:
-                return <Home/>;
-            case 2:
-                return <Home/>;
-            default:
-                return null;
-        }
-    };
-
     return (
         <Page header={header} sidebar={sidebar} style={{height: "100vh"}}>
-            <Stack hasGutter>
-                <StackItem>
-                    {renderCurrentSelection()}
+            <Stack hasGutter >
+                <StackItem isFilled={true}>
+                    <PageSection>
+                        <Outlet/>
+                    </PageSection>
                 </StackItem>
                 <StackItem>
                     <footer className="footer pf-u-color-400">

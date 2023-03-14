@@ -1,9 +1,10 @@
 import React from 'react';
 import {PageGroup, PageSection, PageSectionVariants} from '@patternfly/react-core';
-import {FilterPanel} from './FilterPanel';
-import {ExporterTable} from "./ExporterTable";
+import {FilterPanel} from "./FilterPanel";
+import {ExporterTable} from "./DeployerTable";
 
-export const Home: React.FunctionComponent = () => {
+
+export const Deployer: React.FunctionComponent = () => {
 
     return (
         <React.Fragment>

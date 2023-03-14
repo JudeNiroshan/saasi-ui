@@ -8,23 +8,27 @@ import '@patternfly/patternfly/patternfly-addons.css'
 import {Login} from './components/LoginPage/Login';
 import {ParentPage} from './components/ParentPage';
 import { UserContextProvider } from './hooks/useUser';
+import {NewExporter} from "./components/Exporter/NewExporter";
+import {Exporter} from "./components/Exporter/Exporter";
+import MainRoutes from "./routes/MainRoutes";
 
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/",
-    element: <ParentPage />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/login",
+//     element: <Login />,
+//   },
+//   {
+//     path: "/",
+//     element: <ParentPage children={null} />,
+//   }
+// ]);
 
 function App() {
   return (
     <div className="App">
       <UserContextProvider>
-        <RouterProvider router={router} />
+        <MainRoutes/>
+        {/*<RouterProvider router={router} />*/}
       </UserContextProvider>
     </div>
   );

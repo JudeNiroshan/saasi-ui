@@ -1,10 +1,24 @@
 import React from 'react';
-import {Form, FormGroup, FormSelect, FormSelectOption, Grid, GridItem, TextInput} from '@patternfly/react-core';
+import {
+    Button,
+    Flex,
+    FlexItem,
+    Form,
+    FormGroup,
+    FormSelect,
+    FormSelectOption,
+    Grid,
+    GridItem,
+    TextInput
+} from '@patternfly/react-core';
+import './FilterPanel.css'
+import {useNavigate} from "react-router";
 
 export const FilterPanel: React.FunctionComponent = () => {
     const [app, setApp] = React.useState('please choose');
     const [version, setVersion] = React.useState('please choose');
     const [tag, setTag] = React.useState('');
+    const navigate = useNavigate()
 
     const handleAppOptionChange = (appOption: string) => {
         setApp(appOption)
@@ -31,14 +45,14 @@ export const FilterPanel: React.FunctionComponent = () => {
     return (
         <div className="filter-panel">
             <Form isHorizontal>
-                <Grid hasGutter md={6}>
+                <Grid hasGutter>
                     <GridItem span={4}>
                         <FormGroup
-                            label="Application"
+                            label="Exporter Name"
                             isRequired
                             fieldId="horizontal-form-name"
                             helperText="Select an application"
-                            style={{marginRight: "10em"}}
+                            className="app-label"
                         >
                             <FormSelect
                                 value={app}
@@ -59,6 +73,7 @@ export const FilterPanel: React.FunctionComponent = () => {
                             label="Version"
                             fieldId="horizontal-form-name"
                             helperText="Select a version"
+                            className="app-label"
                         >
                             <FormSelect
                                 value={version}
@@ -74,12 +89,12 @@ export const FilterPanel: React.FunctionComponent = () => {
                             </FormSelect>
                         </FormGroup>
                     </GridItem>
-                    <GridItem span={4}>
+                    <GridItem span={3}>
                         <FormGroup
                             label="Tag"
                             fieldId="horizontal-form-name"
                             helperText="Mention a specific tag"
-                            style={{marginLeft: "10em"}}
+                            className="app-label"
                         >
                             <TextInput
                                 value={tag}
@@ -92,6 +107,18 @@ export const FilterPanel: React.FunctionComponent = () => {
                             />
                         </FormGroup>
                     </GridItem>
+                <GridItem span={2}>
+                    <Flex direction={{ default: 'column' }}>
+                        <FlexItem></FlexItem>
+                        <FlexItem>
+                            <div className="filter-panel-actions">
+                                <Button variant="primary" isSmall onClick={() => navigate("/create-exporter")}>
+                                    Create new exporter
+                                </Button>
+                            </div>
+                        </FlexItem>
+                    </Flex>
+                </GridItem>
                 </Grid>
             </Form>
         </div>
