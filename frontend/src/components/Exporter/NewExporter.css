@@ -1,0 +1,16 @@
+.namespace-header {
+    display: -webkit-box;
+}
+.namespace-header .pf-c-form__field-group-header-main {
+    width: 50%;
+}
+.namespace-header .pf-c-form__field-group-header-actions {
+    text-align: right;
+    width: 50%;
+}
+
+.namespace-header-input {
+    width: 60%;
+    margin: 10px;
+    border-color: black;
+}

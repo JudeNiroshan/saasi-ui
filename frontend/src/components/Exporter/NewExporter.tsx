@@ -15,14 +15,40 @@ import React from "react";
 import HelpIcon from '@patternfly/react-icons/dist/esm/icons/help-icon';
 import {TrashIcon} from "@patternfly/react-icons";
 import {useNavigate} from "react-router";
+import './NewExporter.css';
 
+interface ConfigMapProps {
+    name: string;
+    paramsKeys: []
+}
+interface NamespaceProps {
+    name: string;
+    description: string;
+    configMaps: ConfigMapProps[];
+}
 export const NewExporter: React.FunctionComponent = () => {
     const [clusterId, setClusterId] = React.useState('');
     const [serverUrl, setServerUrl] = React.useState('');
     const [token, setToken] = React.useState('');
     const [exportName, setExportName] = React.useState('');
     const navigate = useNavigate()
+    const [namespaces, setNamespaces] = React.useState<NamespaceProps[]>([]);
+    const [newNamespaceName, setNewNamespaceName] = React.useState('');
 
+    const removeNamespace = (namespace:NamespaceProps) => {
+        const updatedNamespaces = namespaces.filter(ns => ns.name!== namespace.name);
+        setNamespaces(updatedNamespaces);
+    }
+    const addNamespace = () => {
+        const namespace = {
+            name: newNamespaceName,
+            description: '',
+            configMaps: []
+        }
+        const updatedNamespaces = [...namespaces, namespace];
+        setNamespaces(updatedNamespaces);
+        setNewNamespaceName('')
+    }
     return (
         <PageGroup>
             <PageSection variant={PageSectionVariants.light}>
@@ -93,7 +119,8 @@ export const NewExporter: React.FunctionComponent = () => {
                                 bodyContent={
                                     <div>
                                         <p>
-                                            It is visible in the Red Hat Openshift Console -&gt; Home -&gt; Overview -&gt; Details
+                                            It is visible in the Red Hat Openshift Console -&gt; Home -&gt; Overview
+                                            -&gt; Details
                                         </p>
                                     </div>
                                 }
@@ -162,52 +189,70 @@ export const NewExporter: React.FunctionComponent = () => {
                         toggleAriaLabel="Details"
                         header={
                             <FormFieldGroupHeader
-                                titleText={{ text: 'Namespaces', id: 'field-group1-titleText-id' }}
+                                titleText={{text: 'Namespaces', id: 'field-group1-titleText-id'}}
                                 titleDescription="Namespaces that needs to be exported"
+                                className="namespace-header"
                                 actions={
                                     <>
-                                        <Button variant="link">Delete all</Button> <Button variant="secondary">Add parameter</Button>
+                                        <TextInput
+                                            type="text"
+                                            className="namespace-header-input"
+                                            value={newNamespaceName}
+                                            onChange={setNewNamespaceName}
+                                        />
+                                        <Button variant="secondary" onClick={addNamespace}>Add
+                                            Namespace</Button>
+
                                     </>
                                 }
                             />
                         }
                     >
-                        <FormFieldGroupExpandable
-                            isExpanded
-                            toggleAriaLabel="Details"
-                            header={
-                                <FormFieldGroupHeader
-                                    titleText={{ text: 'Nested field group 1', id: 'nested-field-group1-titleText-id' }}
-                                    titleDescription="Nested field group 1 description text."
-                                    actions={
-                                        <Button variant="plain" aria-label="Remove">
-                                            <TrashIcon />
-                                        </Button>
+                        {namespaces.map((ns, index) => {
+                            return (
+                                <FormFieldGroupExpandable
+                                    isExpanded
+                                    toggleAriaLabel="Details"
+                                    header={
+                                        <FormFieldGroupHeader
+                                            titleText={{
+                                                text: ns.name,
+                                                id: ns.name+index,
+                                            }}
+                                            titleDescription={ns.description}
+                                            actions={
+                                                <Button variant="plain" aria-label="Remove" onClick={() => removeNamespace(ns)}>
+                                                    <TrashIcon/>
+                                                </Button>
+                                            }
+                                        />
                                     }
-                                />
-                            }
-                        >
-                            <FormGroup label="Label 1" isRequired fieldId="1-expanded-group1-label1">
-                                <TextInput
-                                    isRequired
-                                    id="1-expanded-group1-label1"
-                                    name="1-expanded-group1-label1"
-                                    value={'1-expanded-group1-label1'}
-                                    // onChange={handleChange}
-                                />
-                            </FormGroup>
-                            <FormGroup label="Label 2" isRequired fieldId="1-expanded-group1-label2">
-                                <TextInput
-                                    isRequired
-                                    id="1-expanded-group1-label2"
-                                    name="1-expanded-group1-label2"
-                                    value={'1-expanded-group1-label2'}
-                                    // onChange={handleChange}
-                                />
-                            </FormGroup>
-                        </FormFieldGroupExpandable>
-                    </FormFieldGroupExpandable>
+                                >
+                                    <FormGroup label="Label 1" isRequired fieldId="1-expanded-group1-label1">
+                                        <TextInput
+                                            isRequired
+                                            id="1-expanded-group1-label1"
+                                            name="1-expanded-group1-label1"
+                                            value={'1-expanded-group1-label1'}
+                                            // onChange={handleChange}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup label="Label 2" isRequired fieldId="1-expanded-group1-label2">
+                                        <TextInput
+                                            isRequired
+                                            id="1-expanded-group1-label2"
+                                            name="1-expanded-group1-label2"
+                                            value={'1-expanded-group1-label2'}
+                                            // onChange={handleChange}
+                                        />
+                                    </FormGroup>
+                                </FormFieldGroupExpandable>
+                            )
+                        })
 
+                        }
+
+                    </FormFieldGroupExpandable>
 
 
                     <ActionGroup>
